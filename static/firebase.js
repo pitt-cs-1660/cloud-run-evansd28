@@ -120,7 +120,21 @@ async function vote(team) {
       /*
        * ++++ YOUR CODE HERE ++++
        */
-      window.alert(`Not implemented yet!`);
+      // Prepare the form data
+      const formData = new URLSearchParams();
+      formData.append('team', team);
+
+      // Send the vote to the backend
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData.toString()
+      });
+
+      if(response.ok) window.location.reload();
 
     } catch (err) {
       console.log(`Error when submitting vote: ${err}`);
