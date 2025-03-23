@@ -22,16 +22,22 @@ async def read_root(request: Request):
     # ++++ START CODE HERE ++++
     # ====================================
 
-    # stream all votes; count tabs / spaces votes, and get recent votes
-
+    try:
+        votes = votes_collection.stream()
+        vote_data = [v.to_dict() for v in votes]
+    except Exception as e:
+        print(f"Error fetching votes: {e}")
+        vote_data = []
+    spaces_count = sum(1 for v in vote_data if v.get("team") == "SPACES")
+    tabs_count = sum(1 for v in vote_data if v.get("team") == "TABS")
     # ====================================
     # ++++ STOP CODE ++++
     # ====================================
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "tabs_count": 0,
-        "spaces_count": 0,
-        "recent_votes": []
+        "tabs_count": tabs_count,
+        "spaces_count": spaces_count,
+        "recent_votes": vote_data
     })
 
 
@@ -43,9 +49,13 @@ async def create_vote(team: Annotated[str, Form()]):
     # ====================================
     # ++++ START CODE HERE ++++
     # ====================================
-
     # create a new vote document in firestore
-    return {"detail": "Not implemented yet!"}
+    votes_collection.add({
+        "team": team,
+        "time_cast": datetime.datetime.utcnow().isoformat()
+    })
+    return {"message": "Vote recorded successfully!"}
+    #return {"detail": "Not implemented yet!"}
 
     # ====================================
     # ++++ STOP CODE ++++

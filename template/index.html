@@ -9,7 +9,7 @@
   <script src="https://www.gstatic.com/firebasejs/7.18/firebase-app.js"></script>
   <!-- Add Firebase Auth service-->
   <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
-  <script src="/static/config.js"></script>
+  <script type="module" src="/static/config.js"></script>
   <script src="/static/firebase.js"></script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
 </head>
@@ -52,12 +52,27 @@
       {% endfor %}
     </ul>
   </div>
+  <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyCThV1uLRnkFXXa2Q3ui3rvWl1HVpI583U",
+      authDomain: "assignment3-3-454522.firebaseapp.com",
+    };
+    firebase.initializeApp(config);
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       <!-- add Event Listener "click" to the vote -->
-      // document.getElementById("voteTabs").addEventListener("click", function () {
-      //   vote("TABS");
-      // });
+      document.getElementById("voteTabs").addEventListener("click", function () {
+         vote("TABS");
+      });
+      document.getElementById("voteSpaces").addEventListener("click", function () {
+         vote("SPACES");
+      });
+      document.getElementById("signInButton").addEventListener("click", function () {
+         toggle();
+      });
+      initApp();
     })
   </script>
 </body>
